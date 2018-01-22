@@ -5,7 +5,7 @@ user_name = gets.chomp
 user_name.downcase!
 user_name.capitalize!
 
-puts 'Укажите свой рост'
+puts 'Укажите свой рост:'
 user_height = gets.chomp
 
 ideal_weight = user_height.to_i - 110
