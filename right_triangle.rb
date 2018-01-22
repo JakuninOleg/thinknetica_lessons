@@ -16,7 +16,7 @@ $hypotenuse = $array.max
 $array.delete($hypotenuse)
 
 # Создадим метод, чтобы не повторять вычисления несколько раз в наших
-# conditional statements, соблюдаем филосовию Keep it DRY
+# conditional statements, соблюдаем философию Keep it DRY
 def right_triangle
   return true if (($hypotenuse ** 2).round == ($array.first ** 2).round + ($array.last ** 2).round)
 end
