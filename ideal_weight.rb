@@ -1,9 +1,5 @@
 puts 'Добрый день, давайте познакомимся, как Вас зовут?'
-user_name = gets.chomp
-
-# небольшое форматирование введённого имени
-user_name.downcase!
-user_name.capitalize!
+user_name = gets.chomp.downcase.split(" ").map(&:capitalize).join(" ")
 
 puts 'Укажите свой рост:'
 user_height = gets.chomp
