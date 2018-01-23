@@ -1,29 +1,28 @@
 puts 'Добрый день, Вас приветствует программа, которая поможет Вам опознать прямоугольный треугольник. Для начала - введите любую из 3х сторон вашего треугольника в сантиметрах:'
-a = gets.chomp.to_f
+a = gets.chomp.to_i
 
 puts 'Введите вторую сторону треугольника в сантиметрах:'
-b = gets.chomp.to_f
+b = gets.chomp.to_i
 
 puts 'Введите третью сторону треугольника в сантиметрах:'
-c = gets.chomp.to_f
+c = gets.chomp.to_i
 
-# Создадим массив из всех полученных сторон треугольника, объявим его
-# как глобальную переменную, чтобы использовать в будущем методе
-$array = [a, b, c]
+# Создадим переменную, чтобы использовать впоследствии несколько раз
+equal_sides = true if a == b && b == c
+# Создадим массив из всех полученных сторон треугольника
+array = [a, b, c]
 # Находим гипотенузу, выбирая наибольшую сторону из массива
-$hypotenuse = $array.max
-# Удаляем гипотенузу, чтобы в массиве осталось только 2 катета
-$array.delete($hypotenuse)
-
-# Создадим метод, чтобы не повторять вычисления несколько раз в наших
+hypotenuse = array.max
+# Удаляем гипотенузу, чтобы в массиве осталось только 2 катета.
+# Если все стороны равны - не трогаем массив.
+array.delete(hypotenuse) unless equal_sides
+# Создадим переменную, чтобы не повторять вычисления несколько раз в наших
 # conditional statements, соблюдаем философию Keep it DRY
-def right_triangle
-  return true if (($hypotenuse ** 2).round == ($array.first ** 2).round + ($array.last ** 2).round)
-end
+right_triangle = true if ((hypotenuse**2) == (array.first**2) + (array.last**2))
 
-if a == b && b == c
+if equal_sides
   puts 'Ваш треугольник равносторонний, да ещё и равнобедренный! Но не прямоугольный, увы!'
-elsif  right_triangle && $array.first == $array.last
+elsif  right_triangle && array.first == array.last
   puts 'Ваш треугольник прямоугольный и равнобедренный! Бинго!'
 elsif right_triangle
   puts 'Ваш треугольник прямоугольный! Ура!'
