@@ -20,7 +20,7 @@ hypotenuse = array.max
 array.delete(hypotenuse)
 # Создадим переменную, чтобы не повторять вычисления несколько раз в наших
 # conditional statements, соблюдаем философию Keep it DRY
-right_triangle = true if ((hypotenuse**2) == (array.first**2) + (array.last**2))
+right_triangle = (hypotenuse**2 == array.first**2 + array.last**2)
 
 if right_triangle && array.first == array.last
   puts 'Ваш треугольник прямоугольный и равнобедренный! Бинго!'
