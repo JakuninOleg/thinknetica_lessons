@@ -16,8 +16,8 @@ fibonacci_array = [0, 1]
 
 # Выполним рефакторинг для уменьшения количества строк
 
-until fibonacci_array[-1] + fibonacci_array[-2] > 100
-  fibonacci_array << fibonacci_array[-1] + fibonacci_array[-2]
+until (number = fibonacci_array[-1] + fibonacci_array[-2]) > 100
+  fibonacci_array << number
 end
 
 p fibonacci_array
