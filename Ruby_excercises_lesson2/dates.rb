@@ -19,6 +19,3 @@ end
 result = days_in_month_array[0..user_month - 2].reduce(:+) + user_date
 
 puts "Порядковый номер даты #{user_date}.#{user_month}.#{user_year} - #{result}"
-
-
-

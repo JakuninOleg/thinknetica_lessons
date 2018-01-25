@@ -5,10 +5,6 @@ letters = ('a'..'z').to_a
 
 vowels_hash = {}
 
-# Ищем в массиве letters буквы соответствующие массиву vowels и заносим
-# в хэш vowels_hash, присваивая индекс элемента из массива letters.
-# Метод each_with_index длиннее на 2 символа, но, возможно, предпочтительнее
-# использовать именно его. Уточнить.
-letters.each { |letter| vowels_hash[letter] = letters.index(letter) + 1 if vowels.include?(letter) }
+letters.each_with_index { |letter, index| vowels_hash[letter] = index + 1 if vowels.include?(letter) }
 
 p vowels_hash

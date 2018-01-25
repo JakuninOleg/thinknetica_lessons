@@ -16,7 +16,7 @@ fibonacci_array = [0, 1]
 
 # Выполним рефакторинг для уменьшения количества строк
 
-until (number = fibonacci_array[-1] + fibonacci_array[-2]) > 100
+while (number = fibonacci_array[-1] + fibonacci_array[-2]) < 100
   fibonacci_array << number
 end
 

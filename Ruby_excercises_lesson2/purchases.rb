@@ -12,16 +12,15 @@ loop do
   puts 'Введите цену товара:'
   price = gets.chomp.to_f
 
-  cart[item] = { quantity => price }
+  cart[item] = { quantity: quantity, price: price }
 
   sum_array << quantity * price
 end
 
 p cart
 
-cart.each do |item, nested_hash|
-  sum = 0
-  nested_hash.each { |quantity, price| sum = quantity * price }
+cart.each do |item, value|
+  sum = value[:price] * value[:quantity]
   puts "Итого стоимость товара #{item}: #{sum}$"
 end
 
