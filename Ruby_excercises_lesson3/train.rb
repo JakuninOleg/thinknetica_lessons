@@ -1,7 +1,7 @@
 require_relative 'route'
 
 class Train
-  attr_accessor :speed, :carriages, :current_station, :index, :route, :index_info
+  attr_accessor :speed, :carriages, :current_station, :index, :route
   attr_reader :number, :type
 
   def initialize(number, type, carriages)
