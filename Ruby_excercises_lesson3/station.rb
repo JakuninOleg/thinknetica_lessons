@@ -6,32 +6,33 @@ class Station
 
   def initialize(name)
     @name = name
-    @trains = {}
+    @trains = []
   end
 
   def arrival(train)
-    trains[train.number] = train.type
+    trains << train
   end
 
   def departure(train)
-    trains.delete(train.number)
+    trains.delete(train)
   end
 
   def trains_list(train_type)
-    trains.values.count(train_type)
+    trains.count { |train| train.type.include? train_type }
   end
 end
 
 # station = Station.new('Ботаническая')
 
 # train = Train.new('24', 'грузовой', 25)
+# train_new = Train.new('24', 'пассажирский', 25)
+# train_x = Train.new('24', 'грузовой', 25)
 
 # p station.name
 
 # station.arrival(train)
 
-# p station.trains
+# station.arrival(train_x)
 
 # p station.trains_list('грузовой')
-
 # p station.trains_list('пассажирский')

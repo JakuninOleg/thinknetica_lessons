@@ -14,11 +14,22 @@ class Route
   def delete_station(station)
     stations.delete(station)
   end
+
+  # Список станций в виде массива можно вызвать с помощью команды
+  # route.stations, дополнительно создал данный метод
+
+  def show_stations
+    stations.each { |station_name| p station_name }
+  end
 end
 
 # route = Route.new('Ботаническая', 'Проспект Космонавтов')
 
+# p route.route_name
+
 # route.add_station('Геологическая')
+
+# route.show_stations
 
 # route.delete_station('Геологическая')
 
