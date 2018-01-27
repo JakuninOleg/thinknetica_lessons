@@ -1,7 +1,5 @@
-require_relative 'route'
-
 class Train
-  attr_accessor :speed, :carriages, :current_station, :index, :route
+  attr_accessor :index, :route, :carriages, :speed
   attr_reader :number, :type
 
   def initialize(number, type, carriages)
@@ -25,22 +23,24 @@ class Train
 
   def create_route(route)
     self.route = route
-    self.current_station = route.stations[0]
-    self.index = route.stations.index(current_station)
+    self.index = 0
+    current_station.arrival(self)
+  end
+
+  def current_station
+    route.stations[index]
   end
 
   def move_next_station
-    if current_station != route.stations.last
-      self.current_station = route.stations[index + 1]
-      self.index += 1
-    end
+    current_station.departure(self)
+    next_station.arrival(self)
+    self.index += 1
   end
 
   def move_previous_station
-    if current_station != route.stations.first
-      self.current_station = route.stations[index - 1]
-      self.index -= 1
-    end
+    current_station.departure(self)
+    previous_station.arrival(self)
+    self.index -= 1
   end
 
   def next_station
@@ -51,11 +51,3 @@ class Train
     route.stations[index - 1] if index != 0
   end
 end
-
-# route = Route.new('Ботаническая', 'Проспект Космонавтов')
-
-# route.add_station('Автовокзал')
-
-# train = Train.new('24', 'грузовой', 0)
-
-# train.create_route(route)
