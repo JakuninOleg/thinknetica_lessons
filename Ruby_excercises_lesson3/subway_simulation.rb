@@ -12,7 +12,7 @@ route.add_station(station_three)
 
 train = Train.new('24', 'грузовой', 25)
 
-p route.route_name
+p route.name
 
 train.create_route(route)
 
@@ -27,7 +27,7 @@ p 'поехали'
 p train.current_station.name
 p train.next_station.name
 p train.previous_station.name
-p route.stations
+
 
 train.move_next_station
 p '------'
@@ -36,7 +36,7 @@ p 'поехали'
 p train.current_station.name
 p train.next_station
 p train.previous_station.name
-p route.stations
+
 
 train.move_previous_station
 p '------'
@@ -45,7 +45,7 @@ p 'поехали назад'
 p train.current_station.name
 p train.next_station.name
 p train.previous_station.name
-p route.stations
+
 
 train.move_previous_station
 p '------'
@@ -54,5 +54,5 @@ p 'поехали назад'
 p train.current_station.name
 p train.next_station.name
 p train.previous_station
-p route.stations
+
 

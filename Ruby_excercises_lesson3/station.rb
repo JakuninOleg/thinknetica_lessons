@@ -15,6 +15,6 @@ class Station
   end
 
   def trains_list(train_type)
-    trains.count { |train| train.type.include? train_type }
+    trains.count { |train| train.type == train_type }
   end
 end
