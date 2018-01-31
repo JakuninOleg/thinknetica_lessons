@@ -28,7 +28,7 @@ class Controller
     if type == 1
       train = PassengerTrain.new(number)
     elsif type == 2
-      train == CargoTrain.new(number)
+      train = CargoTrain.new(number)
     end
     @trains << train
     puts "#{train.type} поезд номер #{train.number} успешно создан!"
@@ -83,13 +83,7 @@ class Controller
     quantity = @view.ask_how_many_carriages
     case choice
     when 1
-      if train.class == PassengerTrain
-        carriages = Array.new(quantity, PassengerCarriage.new)
-        carriages.each { |carriage| train.carriages << carriage }
-      elsif train.class == CargoTrain
-        carriages = Array.new(quantity, CargoCarriage.new)
-        carriages.each { |carriage| train.carriages << carriage }
-      end
+      quantity.times { train.carriage_add }
     when 2
       quantity.times { train.carriage_remove }
     end
