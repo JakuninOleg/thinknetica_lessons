@@ -31,7 +31,7 @@ class Controller
       train = CargoTrain.new(number)
     end
     @trains << train
-    puts "#{train.type} поезд номер #{train.number} успешно создан!"
+    puts "#{train.class} номер #{train.number} успешно создан!"
   end
 
   def create_route
@@ -76,18 +76,20 @@ class Controller
     puts "Поезд №#{train.number} теперь следует маршрутом #{@routes[route].name}"
   end
 
-  def carriages_control
+  def add_carriage_to_train
     show_trains
     train = @trains[@view.ask_which_train]
-    choice = @view.ask_what_to_do_with_carriages
-    quantity = @view.ask_how_many_carriages
-    case choice
-    when 1
-      quantity.times { train.carriage_add }
-    when 2
-      quantity.times { train.carriage_remove }
-    end
-    puts "Количество вагонов у поезда номер #{train.number}: #{train.carriages.size}"
+    add_carriage_condition(train)
+    @view.display_carriages_of_train(train)
+  end
+
+  def remove_carriage_from_train
+    show_trains
+    train = @trains[@view.ask_which_train]
+    show_carriages(train)
+    carriage = train.carriages[@view.ask_which_carriage]
+    train.carriage_remove(carriage)
+    @view.display_carriages_of_train(train)
   end
 
   def move_train
@@ -142,5 +144,17 @@ class Controller
     @stations_array.delete(@route.stations[0])
     @stations_array.delete(@route.stations[-1])
     @stations_array.each_with_index { |station, index| puts "#{index + 1} - #{station.name}" }
+  end
+
+  def show_carriages(train)
+    train.carriages.each_with_index { |carriage, index| puts "#{index + 1} - #{carriage}" }
+  end
+
+  def add_carriage_condition(train)
+    if train.class == PassengerTrain
+      train.carriage_add(PassengerCarriage.new)
+    elsif train.class == CargoTrain
+      train.carriage_add(CargoCarriage.new)
+    end
   end
 end

@@ -65,18 +65,10 @@ class View
     gets.chomp.to_i - 1
   end
 
-  def ask_what_to_do_with_carriages
-    puts 'Что сделать с поездом'
-    puts '1 - Добавить вагоны'
-    puts '2 - Отцепить вагоны'
+  def ask_which_carriage
+    puts 'Выберите вагон'
     print '>'
-    gets.chomp.to_i
-  end
-
-  def ask_how_many_carriages
-    puts 'Сколько вагонов?'
-    print '>'
-    gets.chomp.to_i
+    gets.chomp.to_i - 1
   end
 
   def ask_where_to_move
@@ -86,5 +78,9 @@ class View
     puts '0 - Отмена'
     print '>'
     gets.chomp.to_i
+  end
+
+  def display_carriages_of_train(train)
+    puts "Количество вагонов у поезда номер #{train.number}: #{train.carriages.size}"
   end
 end

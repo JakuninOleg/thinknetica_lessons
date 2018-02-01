@@ -1,9 +1,6 @@
 class CargoTrain < Train
-  def type
-    'Грузовой'
+  def carriage_add(carriage_type)
+    return unless carriage_type.class == CargoCarriage
+    super
   end
-
-  def carriage_add
-   @carriages << CargoCarriage.new if speed.zero?
- end
 end

@@ -28,9 +28,10 @@ class Router
     when 3 then @controller.create_route
     when 4 then @controller.route_control
     when 5 then @controller.set_route
-    when 6 then @controller.carriages_control
-    when 7 then @controller.move_train
-    when 8 then @controller.show_stations_and_trains
+    when 6 then @controller.add_carriage_to_train
+    when 7 then @controller.remove_carriage_from_train
+    when 8 then @controller.move_train
+    when 9 then @controller.show_stations_and_trains
     when 0 then stop
     else
       puts 'Выберите действие повторно'
@@ -44,9 +45,10 @@ class Router
     puts '3 - Создать маршрут'
     puts '4 - Управление маршрутом'
     puts '5 - Назначить маршрут поезду'
-    puts '6 - Управление вагонами поезда'
-    puts '7 - Перемещение поезда'
-    puts '8 - Список станций'
+    puts '6 - Прицепить вагон к поезду'
+    puts '7 - Отцепить вагон от поезда'
+    puts '8 - Перемещение поезда'
+    puts '9 - Список станций'
     puts '0 - Выход из программы'
     print '>'
   end

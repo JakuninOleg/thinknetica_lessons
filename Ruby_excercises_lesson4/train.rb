@@ -15,8 +15,12 @@ class Train
     @speed -= 10 while @speed > 0
   end
 
-  def carriage_remove
-    @carriages.pop if speed.zero?
+  def carriage_add(carriage_type)
+    @carriages << carriage_type if speed.zero?
+  end
+
+  def carriage_remove(carriage)
+    @carriages.delete(carriage) if speed.zero?
   end
 
   def create_route(route)

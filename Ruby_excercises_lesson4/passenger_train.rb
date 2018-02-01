@@ -1,9 +1,6 @@
 class PassengerTrain < Train
-  def type
-    'Пассажирский'
-  end
-
-  def carriage_add
-    @carriages << PassengerCarriage.new if speed.zero?
+  def carriage_add(carriage_type)
+    return unless carriage_type.class == PassengerCarriage
+    super
   end
 end
