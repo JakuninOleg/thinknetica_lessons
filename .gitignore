@@ -1,2 +1,4 @@
 .DS_store
+.gitignore
 /Ruby_excercises_lesson_5/test.rb
+test_ignore.txt
