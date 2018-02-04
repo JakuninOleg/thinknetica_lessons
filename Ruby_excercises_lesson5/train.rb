@@ -3,17 +3,17 @@ class Train
   include Company
   include InstanceCounter
 
-  @@trains = []
+  @@trains = {}
 
   def self.find(number)
-    @@trains.detect { |train| train.number == number }
+    @@trains[number]
   end
 
   def initialize(number)
     @number = number
     @carriages = []
     @speed = 0
-    @@trains << self
+    @@trains[number] = self
     register_instance
   end
 
