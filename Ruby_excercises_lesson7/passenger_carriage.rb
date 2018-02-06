@@ -1,13 +1,13 @@
 class PassengerCarriage < Carriage
-  @number = 0
+  @@number = 0
 
-  def take_a_seat
-    raise 'К сожалению, места в поезде закончились.' if @free_capacity.zero?
-    @free_capacity -= 1
-    @used_capacity += 1 unless @used_capacity == @capacity
+  def initialize(capacity)
+    @number = @@number += 1
+    super(capacity)
   end
 
-  def self.number
-    @number += 1
+  def use_capacity(volume = 1)
+    raise 'К сожалению, места в поезде закончились.' if free_capacity.zero?
+    super
   end
 end

@@ -119,12 +119,12 @@ class Controller
     show_carriages(train)
     carriage = train.carriages[@view.ask_which_carriage]
     if carriage.class == PassengerCarriage
-      carriage.take_a_seat
-      puts "Место в вагоне №#{carriage.class.number} выбрано. Осталось мест в поезде: #{carriage.free_capacity}"
+      carriage.use_capacity
+      puts "Место в вагоне №#{carriage.number} выбрано. Осталось мест в поезде: #{carriage.free_capacity}"
     elsif carriage.class == CargoCarriage
       capacity = @view.ask_capacity
       carriage.use_capacity(capacity)
-      puts "#{capacity}м3 было занято в вагоне №#{carriage.class.number}. Осталось места: #{carriage.free_capacity}м3"
+      puts "#{capacity}м3 было занято в вагоне №#{carriage.number}. Осталось места: #{carriage.free_capacity}м3"
     end
   rescue RuntimeError => e
     puts e.message
@@ -150,9 +150,9 @@ class Controller
     show_trains
     train = @trains[@view.ask_which_train]
     if train.class == PassengerTrain
-      block = proc { |carriage| puts "#{carriage.class} номер #{carriage.class.number}. Свободные места: #{carriage.free_capacity}. Занято мест: #{carriage.used_capacity}" }
+      block = proc { |carriage| puts "#{carriage.class} номер #{carriage.number}. Свободные места: #{carriage.free_capacity}. Занято мест: #{carriage.used_capacity}" }
     elsif train.class == CargoTrain
-      block = proc { |carriage| puts "#{carriage.class} номер #{carriage.class.number}. Свободное пространство: #{carriage.free_capacity}м3. Занято грузом: #{carriage.used_capacity}м3" }
+      block = proc { |carriage| puts "#{carriage.class} номер #{carriage.number}. Свободное пространство: #{carriage.free_capacity}м3. Занято грузом: #{carriage.used_capacity}м3" }
     end
     train.block_train_carriages(block)
   end
@@ -188,7 +188,7 @@ class Controller
   end
 
   def show_carriages(train)
-    train.carriages.each_with_index { |carriage, index| puts "#{index + 1} - #{carriage.class} №#{carriage.class.number}. Свободное место: #{carriage.free_capacity}" }
+    train.carriages.each_with_index { |carriage, index| puts "#{index + 1} - #{carriage.class} №#{carriage.number}. Свободное место: #{carriage.free_capacity}" }
   end
 
   def add_carriage_condition(train)

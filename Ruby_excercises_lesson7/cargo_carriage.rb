@@ -1,13 +1,13 @@
 class CargoCarriage < Carriage
-  @number = 0
+  @@number = 0
 
-  def use_capacity(volume)
-    raise "Объёма недостаточно, свободно #{@free_capacity}м3" if volume > @free_capacity
-    @free_capacity -= volume unless @free_capacity.zero?
-    @used_capacity += volume unless @used_capacity == @capacity
+  def initialize(capacity)
+    @number = @@number += 1
+    super(capacity)
   end
 
-  def self.number
-    @number += 1
+  def use_capacity(volume)
+    raise "Объёма недостаточно, свободно #{free_capacity}м3" if volume > free_capacity
+    super(volume)
   end
 end
