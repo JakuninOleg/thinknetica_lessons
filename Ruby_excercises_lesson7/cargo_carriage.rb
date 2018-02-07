@@ -8,6 +8,6 @@ class CargoCarriage < Carriage
 
   def use_capacity(volume)
     raise "Объёма недостаточно, свободно #{free_capacity}м3" if volume > free_capacity
-    super(volume)
+    super
   end
 end
