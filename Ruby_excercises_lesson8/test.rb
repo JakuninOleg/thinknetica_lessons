@@ -26,7 +26,7 @@ wagon.use_capacity(55)
 train.carriage_add(wagon)
 train.carriage_add(wagon2)
 
-block = proc { |x| puts "#{x.class} номер #{x.number}. Свободное пространство: #{x.free_capacity}м3. Занято грузом: #{x.used_capacity}м3" }
+block = proc { |x| puts x.carriage_info + x.free_space_info }
 
 train.block_train_carriages(block)
 
@@ -35,6 +35,6 @@ train2.carriage_add(wagon4)
 
 55.times { wagon3.use_capacity }
 
-block2 = proc { |x| puts "#{x.class} номер #{x.number}. Свободные места: #{x.free_capacity}. Занято мест: #{x.used_capacity}" }
+block2 = proc { |x| puts x.carriage_info + x.free_space_info }
 
 train2.block_train_carriages(block2)

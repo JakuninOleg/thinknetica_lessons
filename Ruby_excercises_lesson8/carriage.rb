@@ -16,4 +16,8 @@ class Carriage
   def use_capacity(volume)
     @used_capacity += volume unless @used_capacity == @capacity
   end
+
+  def info
+    "#{self.class} номер #{number}."
+  end
 end

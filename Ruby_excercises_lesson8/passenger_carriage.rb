@@ -11,4 +11,8 @@ class PassengerCarriage < Carriage
     raise message if free_capacity.zero?
     super
   end
+
+  def free_space_info
+    info + " Свободные места: #{free_capacity}. Занято мест: #{used_capacity}"
+  end
 end

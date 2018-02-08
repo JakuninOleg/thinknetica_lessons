@@ -122,7 +122,7 @@ class Controller
   def show_train_carriages
     show_trains
     train = @trains[@view.ask_which_train]
-    block = train_carriages_block(train)
+    block = train_carriages_block
     train.block_train_carriages(block)
   end
 
@@ -198,20 +198,12 @@ class Controller
 
   def show_carriages(train)
     train.carriages.each_with_index do |carriage, index|
-      puts "#{index + 1} - #{carriage.class} №#{carriage.number}. Свободное место: #{carriage.free_capacity}"
+      puts "#{index + 1}. " + carriage.free_space_info
     end
   end
 
-  def train_carriages_block(train)
-    if train.class == PassengerTrain
-      proc do |carriage|
-        puts "#{carriage.class} номер #{carriage.number}. Свободные места: #{carriage.free_capacity}. Занято мест: #{carriage.used_capacity}"
-      end
-    elsif train.class == CargoTrain
-      proc do |carriage|
-        puts "#{carriage.class} номер #{carriage.number}. Свободное пространство: #{carriage.free_capacity}м3. Занято грузом: #{carriage.used_capacity}м3"
-      end
-    end
+  def train_carriages_block
+    proc { |carriage| puts carriage.free_space_info }
   end
 
   def add_carriage_condition(train)

@@ -11,4 +11,8 @@ class CargoCarriage < Carriage
     raise message if volume > free_capacity
     super
   end
+
+  def free_space_info
+    info + " Свободное пространство: #{free_capacity}м3. Занято грузом: #{used_capacity}м3"
+  end
 end
