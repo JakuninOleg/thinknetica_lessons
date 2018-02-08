@@ -84,8 +84,10 @@ class Train
   # Методы, используемые внутри класса, доступны в подклассах
 
   def validate!
-    raise 'Неверный формат номера позда. Введите данные в формате XXX-XX или XXXXX. Допускается использование только цифр и букв.' unless number =~ VALID_NUMBER
-    raise 'Поезд с таким номером уже существует!' unless self.class.find(number).nil?
+    message_format = 'Неверный формат номера поезда(XXX-XX или XXXXX)'
+    raise message_format unless number =~ VALID_NUMBER
+    message_existence = 'Поезд с таким номером уже существует!'
+    raise message_existence unless self.class.find(number).nil?
     true
   end
 

@@ -38,7 +38,7 @@ class Router
     if !METHODS[action].nil?
       @controller.send METHODS[action]
     elsif action.zero?
-      exit
+      stop
     else
       puts 'Выберите действие повторно'
     end

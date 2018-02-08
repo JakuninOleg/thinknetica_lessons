@@ -28,11 +28,7 @@ class Controller
   def create_train
     number = @view.ask_for_train_number
     type = @view.ask_for_train_type
-    if type == 1
-      train = PassengerTrain.new(number)
-    elsif type == 2
-      train = CargoTrain.new(number)
-    end
+    train = train_type_condition(type, number)
     @trains << train
     puts "#{train.class} номер #{train.number} успешно создан!"
   rescue RuntimeError => e
@@ -54,22 +50,8 @@ class Controller
     @route = @routes[@view.ask_which_route]
     choice = @view.ask_what_to_do_with_route
     case choice
-    when 1
-      show_excluded_stations
-      station_index = @view.ask_which_station_to_add
-      unless station_index == -1
-        @route.add_station(@stations_array[station_index])
-        puts "Станция #{@stations_array[station_index].name} добавлена в маршрут #{@route.name}."
-        @route.stations
-      end
-    when 2
-      show_included_stations
-      station_index = @view.ask_which_station_to_delete
-      unless station_index == -1
-        @route.delete_station(@stations_array[station_index])
-        puts "Станция #{@stations_array[station_index].name} удалена из маршрута #{@route.name}."
-        @route.stations
-      end
+    when 1 then route_add_station
+    when 2 then route_delete_station
     end
   end
 
@@ -103,13 +85,7 @@ class Controller
     train = @trains[@view.ask_which_train]
     action = @view.ask_where_to_move
     return if action.zero?
-
-    case action
-    when 1
-      train.move_next_station
-    when 2
-      train.move_previous_station
-    end
+    train_move_condition(action, train)
     puts "Поезд №#{train.number} теперь на станции #{train.current_station.name}"
   end
 
@@ -118,14 +94,7 @@ class Controller
     train = @trains[@view.ask_which_train]
     show_carriages(train)
     carriage = train.carriages[@view.ask_which_carriage]
-    if carriage.class == PassengerCarriage
-      carriage.use_capacity
-      puts "Место в вагоне №#{carriage.number} выбрано. Осталось мест в поезде: #{carriage.free_capacity}"
-    elsif carriage.class == CargoCarriage
-      capacity = @view.ask_capacity
-      carriage.use_capacity(capacity)
-      puts "#{capacity}м3 было занято в вагоне №#{carriage.number}. Осталось места: #{carriage.free_capacity}м3"
-    end
+    occupy_wagon_condition(carriage)
   rescue RuntimeError => e
     puts e.message
     puts 'Попробуйте снова:'
@@ -135,33 +104,55 @@ class Controller
     @stations.each_with_index do |station, index|
       puts "#{index + 1} - #{station.name}"
       puts 'Список поездов:'
-      station.trains.each_with_index { |train, train_index| puts "#{train_index + 1}. #{train.number}" }
+      station.trains.each_with_index do |train, train_index|
+        puts "#{train_index + 1}. #{train.number}"
+      end
     end
   end
 
   def show_station_trains
     show_stations
     station = @stations[@view.ask_which_station]
-    block = proc { |train| puts "#{train.class} номер #{train.number}. Кол-во вагонов: #{train.carriages.size}" }
+    block = proc  do |train|
+      puts "#{train.class} номер #{train.number}. Кол-во вагонов: #{train.carriages.size}"
+    end
     station.block_station_trains(block)
   end
 
   def show_train_carriages
     show_trains
     train = @trains[@view.ask_which_train]
-    if train.class == PassengerTrain
-      block = proc { |carriage| puts "#{carriage.class} номер #{carriage.number}. Свободные места: #{carriage.free_capacity}. Занято мест: #{carriage.used_capacity}" }
-    elsif train.class == CargoTrain
-      block = proc { |carriage| puts "#{carriage.class} номер #{carriage.number}. Свободное пространство: #{carriage.free_capacity}м3. Занято грузом: #{carriage.used_capacity}м3" }
-    end
+    block = train_carriages_block(train)
     train.block_train_carriages(block)
   end
 
   private
 
-  # Данные методы логично было бы разместить во View, но т.к. наша БД,
-  # по сути, - находится в виде массивов в контроллере - методы поместим
-  # в секцию private, т.к. к ним обращаемся только внутри класса.
+  def train_type_condition(type, number)
+    if type == 1
+      PassengerTrain.new(number)
+    elsif type == 2
+      CargoTrain.new(number)
+    end
+  end
+
+  def train_move_condition(action, train)
+    case action
+    when 1 then train.move_next_station
+    when 2 then train.move_previous_station
+    end
+  end
+
+  def occupy_wagon_condition(carriage)
+    if carriage.class == PassengerCarriage
+      carriage.use_capacity
+      puts "Место в вагоне №#{carriage.number} выбрано. Осталось мест в поезде: #{carriage.free_capacity}"
+    elsif carriage.class == CargoCarriage
+      capacity = @view.ask_capacity
+      carriage.use_capacity(capacity)
+      puts "#{capacity}м3 было занято в вагоне №#{carriage.number}. Осталось места: #{carriage.free_capacity}м3"
+    end
+  end
 
   def show_stations
     @stations.each_with_index { |station, index| puts "#{index + 1} - #{station.name}" }
@@ -187,8 +178,40 @@ class Controller
     @stations_array.each_with_index { |station, index| puts "#{index + 1} - #{station.name}" }
   end
 
+  def route_add_station
+    show_excluded_stations
+    station_index = @view.ask_which_station_to_add
+    return if station_index == -1
+    @route.add_station(@stations_array[station_index])
+    puts "Станция #{@stations_array[station_index].name} добавлена в маршрут #{@route.name}."
+    @route.stations
+  end
+
+  def route_delete_station
+    show_included_stations
+    station_index = @view.ask_which_station_to_delete
+    return if station_index == -1
+    @route.delete_station(@stations_array[station_index])
+    puts "Станция #{@stations_array[station_index].name} удалена из маршрута #{@route.name}."
+    @route.stations
+  end
+
   def show_carriages(train)
-    train.carriages.each_with_index { |carriage, index| puts "#{index + 1} - #{carriage.class} №#{carriage.number}. Свободное место: #{carriage.free_capacity}" }
+    train.carriages.each_with_index do |carriage, index|
+      puts "#{index + 1} - #{carriage.class} №#{carriage.number}. Свободное место: #{carriage.free_capacity}"
+    end
+  end
+
+  def train_carriages_block(train)
+    if train.class == PassengerTrain
+      proc do |carriage|
+        puts "#{carriage.class} номер #{carriage.number}. Свободные места: #{carriage.free_capacity}. Занято мест: #{carriage.used_capacity}"
+      end
+    elsif train.class == CargoTrain
+      proc do |carriage|
+        puts "#{carriage.class} номер #{carriage.number}. Свободное пространство: #{carriage.free_capacity}м3. Занято грузом: #{carriage.used_capacity}м3"
+      end
+    end
   end
 
   def add_carriage_condition(train)

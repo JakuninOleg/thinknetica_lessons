@@ -34,8 +34,11 @@ class Station
   end
 
   def validate!
-    raise 'У станции должно быть название' if name.strip.empty?
-    raise 'Слишком длинное название станции(30 символов)' if name.length > 30
-    raise 'Такая станция уже существует' if @@stations.map(&:name).include?(name)
+    message_name = 'У станции должно быть название'
+    message_length = 'Слишком длинное название станции(30 символов)'
+    message_existence = 'Такая станция уже существует'
+    raise message_name if name.strip.empty?
+    raise message_length if name.length > 30
+    raise message_existence if @@stations.map(&:name).include?(name)
   end
 end

@@ -7,7 +7,8 @@ class PassengerCarriage < Carriage
   end
 
   def use_capacity(volume = 1)
-    raise 'К сожалению, места в поезде закончились.' if free_capacity.zero?
+    message = 'К сожалению, места в поезде закончились.'
+    raise message if free_capacity.zero?
     super
   end
 end
