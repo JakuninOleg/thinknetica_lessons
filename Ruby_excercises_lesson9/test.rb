@@ -16,6 +16,7 @@ train = Train.new('55555')
 
 train.train_class = 'Эконом'
 train.train_class = 'Бизнес'
+train.train_class = 'Премиум'
 
 p train.train_class
 p train.train_class_history
@@ -25,3 +26,5 @@ train.train_color = 'red'
 p train.train_color
 
 p train.valid?
+
+# train.train_color = 5

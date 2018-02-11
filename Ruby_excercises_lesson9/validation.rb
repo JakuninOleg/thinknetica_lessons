@@ -8,19 +8,17 @@ module Validation
     module ClassMethods
       attr_reader :validations
 
-      def validate(name, *params)
+      def validate(name, validation, *params)
         @validations ||= []
-        @validations << { name => params }
+        @validations << { name: name, validation: validation, params: params }
       end
     end
 
     module InstanceMethods
       def validate!
-        self.class.validations.each do |validation|
-          validation.each do |name, params|
-            var_name = instance_variable_get("@#{name}")
-            send("validate_#{params[0]}_of", var_name, *params[1])
-          end
+        self.class.validations.each do |hash|
+          var_value = instance_variable_get("@#{hash[:name]}")
+          send("validate_#{hash[:validation]}_of", var_value, *hash[:params])
         end
         true
       end
@@ -33,8 +31,8 @@ module Validation
 
       private
 
-      def validate_presence_of(name)
-        raise 'Отсутствует значение аттрибута' if name.nil? || name.empty?
+      def validate_presence_of(value)
+        raise 'Отсутствует значение аттрибута' if value.nil? || value.empty?
       end
 
       def validate_format_of(name, format)
